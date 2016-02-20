@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SerialPortLib2
+namespace SerialPortLib2.Port
 {
     public class SerialErrorReceivedEventArgs : EventArgs
     {

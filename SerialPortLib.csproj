@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -53,25 +53,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events.cs" />
-    <Compile Include="Handshake.cs" />
-    <Compile Include="ISerialStream.cs" />
-    <Compile Include="Parity.cs" />
-    <Compile Include="SerialData.cs" />
-    <Compile Include="SerialDataReceivedEventArgs.cs" />
-    <Compile Include="SerialError.cs" />
-    <Compile Include="SerialErrorReceivedEventArgs.cs" />
-    <Compile Include="SerialPinChange.cs" />
-    <Compile Include="SerialPinChangedEventArgs.cs" />
-    <Compile Include="SerialPort.cs">
+    <Compile Include="Port\Events.cs" />
+    <Compile Include="Port\Handshake.cs" />
+    <Compile Include="Port\ISerialStream.cs" />
+    <Compile Include="Port\Parity.cs" />
+    <Compile Include="Port\SerialData.cs" />
+    <Compile Include="Port\SerialDataReceivedEventArgs.cs" />
+    <Compile Include="Port\SerialError.cs" />
+    <Compile Include="Port\SerialErrorReceivedEventArgs.cs" />
+    <Compile Include="Port\SerialPinChange.cs" />
+    <Compile Include="Port\SerialPinChangedEventArgs.cs" />
+    <Compile Include="Port\SerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialPortInput.cs" />
-    <Compile Include="SerialPortStream.cs" />
-    <Compile Include="SerialSignal.cs" />
-    <Compile Include="StopBits.cs" />
-    <Compile Include="WinSerialStream.cs" />
+    <Compile Include="Port\SerialPortStream.cs" />
+    <Compile Include="Port\SerialSignal.cs" />
+    <Compile Include="Port\StopBits.cs" />
+    <Compile Include="Port\WinSerialStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

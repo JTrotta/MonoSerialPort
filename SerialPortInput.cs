@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SerialPortLib2.Port;
+using System;
 using System.IO;
 using System.Threading;
 

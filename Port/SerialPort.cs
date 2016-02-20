@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using System.IO;
 
-namespace SerialPortLib2
+namespace SerialPortLib2.Port
 {
 	[MonitoringDescription ("")]
 	public class SerialPort : Component

@@ -1,5 +1,5 @@
 ﻿
-namespace SerialPortLib2
+namespace SerialPortLib2.Port
 {
     /// <summary>
     /// Connected state changed event arguments.
