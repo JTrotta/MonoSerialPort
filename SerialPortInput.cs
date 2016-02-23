@@ -16,8 +16,12 @@ namespace SerialPortLib2
         //internal static Logger logger = LogManager.GetCurrentClassLogger();
 
         private SerialPort serialPort;
-        private string portName = "";
-        private int baudRate = 115200;
+        private string _portName = "";
+        private int _defaultBaudRate = 115200;
+        private Parity _defaultParity = Parity.None;
+        private int _defaultDataBits = 8;
+        private StopBits _defaultStopBits = StopBits.One;
+        private bool _isVirtualPort = false;
 
         // Read/Write error state variable
         private bool gotReadWriteError = true;
@@ -29,8 +33,7 @@ namespace SerialPortLib2
 
         private object accessLock = new object();
         private bool disconnectRequested = false;
-
-        private bool _isVirtualPort = false;
+        
         #endregion
 
         #region Public Events
@@ -64,6 +67,16 @@ namespace SerialPortLib2
         public SerialPortInput(bool isVirtualPort)
         {
             this._isVirtualPort = isVirtualPort;
+        }
+
+        public SerialPortInput(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits, bool isVirtualPort)
+        {
+            this._isVirtualPort = isVirtualPort;
+            this._defaultBaudRate = baudRate;
+            this._defaultParity = parity;
+            this._defaultDataBits = dataBits;
+            this._defaultStopBits = stopBits;
+            this._portName = portName;
         }
 
         /// <summary>
@@ -120,14 +133,14 @@ namespace SerialPortLib2
         /// <param name="baudrate">Baudrate.</param>
         public void SetPort(string portname, int baudrate = 115200)
         {
-            if (portName != portname)
+            if (_portName != portname)
             {
                 // set to erro so that the connection watcher will reconnect
                 // using the new port
                 gotReadWriteError = true;
             }
-            portName = portname;
-            baudRate = baudrate;
+            _portName = portname;
+            _defaultBaudRate = baudrate;
         }
 
         /// <summary>
@@ -171,18 +184,21 @@ namespace SerialPortLib2
                     bool tryOpen = true;
                     if (Environment.OSVersion.Platform.ToString().StartsWith("Win") == false)
                     {
-                        tryOpen = (tryOpen && System.IO.File.Exists(portName));
+                        tryOpen = (tryOpen && System.IO.File.Exists(_portName));
                     }
                     if (tryOpen)
                     {
                         serialPort = new SerialPort();
                         //JJ
-                        serialPort.Handshake = Handshake.RequestToSendXOnXOff;
+                        //serialPort.Handshake = Handshake.RequestToSendXOnXOff;
                         serialPort.IsVirtualPort = this._isVirtualPort;
 
                         serialPort.ErrorReceived += HanldeErrorReceived;
-                        serialPort.PortName = portName;
-                        serialPort.BaudRate = baudRate;
+                        serialPort.PortName = _portName;
+                        serialPort.BaudRate = _defaultBaudRate;
+                        serialPort.Parity = _defaultParity;
+                        serialPort.DataBits = _defaultDataBits;
+                        serialPort.StopBits = _defaultStopBits;
 
                         // We are not using serialPort.DataReceived event for receiving data since this is not working under Linux/Mono.
                         // We use the readerTask instead (see below).
