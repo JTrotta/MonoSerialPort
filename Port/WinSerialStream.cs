@@ -394,7 +394,7 @@ namespace SerialPortLib2.Port
 
         public void DiscardOutBuffer()
         {
-            if (!PurgeComm(handle, PurgeRxClear))
+            if (!PurgeComm(handle, PurgeTxClear))
                 ReportIOError(null);
         }
 
