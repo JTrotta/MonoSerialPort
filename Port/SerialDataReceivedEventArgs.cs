@@ -2,7 +2,7 @@
 
 namespace SerialPortLib2.Port
 {
-    public class SerialDataReceivedEventArgs : EventArgs
+    internal class SerialDataReceivedEventArgs : EventArgs
     {
         internal SerialDataReceivedEventArgs(SerialData eventType)
         {
@@ -11,7 +11,7 @@ namespace SerialPortLib2.Port
 
         // properties
 
-        public SerialData EventType
+        internal SerialData EventType
         {
             get
             {

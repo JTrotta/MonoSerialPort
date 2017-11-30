@@ -31,7 +31,7 @@ using System.IO;
 namespace SerialPortLib2.Port
 {
 	[MonitoringDescription ("")]
-	public class SerialPort : Component
+    internal class SerialPort : Component
 	{
 		public const int InfiniteTimeout = -1;
 		const int DefaultReadBufferSize = 4096;
@@ -802,9 +802,9 @@ namespace SerialPortLib2.Port
 		}
 	}
 
-	public delegate void SerialDataReceivedEventHandler (object sender, SerialDataReceivedEventArgs e);
-	public delegate void SerialPinChangedEventHandler (object sender, SerialPinChangedEventArgs e);
-	public delegate void SerialErrorReceivedEventHandler (object sender, SerialErrorReceivedEventArgs e);
+    internal delegate void SerialDataReceivedEventHandler(object sender, SerialDataReceivedEventArgs e);
+    internal delegate void SerialPinChangedEventHandler(object sender, SerialPinChangedEventArgs e);
+    internal delegate void SerialErrorReceivedEventHandler(object sender, SerialErrorReceivedEventArgs e);
 
 }
 

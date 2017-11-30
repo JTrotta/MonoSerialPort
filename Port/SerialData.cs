@@ -1,6 +1,6 @@
 ﻿namespace SerialPortLib2.Port
 {
-    public enum SerialData
+    internal enum SerialData
     {
         Chars = 1,
         Eof

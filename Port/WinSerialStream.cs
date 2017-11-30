@@ -62,11 +62,11 @@ namespace SerialPortLib2.Port
         [DllImport("kernel32", SetLastError = true)]
         static extern bool SetCommTimeouts(int handle, Timeouts timeouts);
 
-        public WinSerialStream(string port_name, int baud_rate, int data_bits, Parity parity, StopBits sb,
+        internal WinSerialStream(string port_name, int baud_rate, int data_bits, Parity parity, StopBits sb,
                 bool dtr_enable, bool rts_enable, Handshake hs, int read_timeout, int write_timeout,
                 int read_buffer_size, int write_buffer_size)
         {
-            handle = CreateFile(port_name, GenericRead | GenericWrite, 0, 0, OpenExisting,
+            handle = CreateFile(String.Format("\\\\.\\{0}", port_name), GenericRead | GenericWrite, 0, 0, OpenExisting,
                     FileFlagOverlapped, 0);
 
             if (handle == -1)
@@ -410,7 +410,9 @@ namespace SerialPortLib2.Port
                 if (!ClearCommError(handle, out errors, out stat))
                     ReportIOError(null);
 
-                return (int)stat.BytesIn;
+                if (stat != null)
+                    return (int)stat.BytesIn;
+                return 0;
             }
         }
 

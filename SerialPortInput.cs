@@ -127,13 +127,13 @@ namespace SerialPortLib2
         }
 
         /// <summary>
-        /// Sets the serial port options.
+        /// Sets the serial port options.        
         /// </summary>
         /// <param name="portname">Portname.</param>
         /// <param name="baudrate">Baudrate.</param>
         public void SetPort(string portname, int baudrate = 115200)
         {
-            if (_portName != portname)
+            if (!string.IsNullOrEmpty(_portName) && _portName != portname)
             {
                 // set to erro so that the connection watcher will reconnect
                 // using the new port
@@ -167,6 +167,11 @@ namespace SerialPortLib2
             return success;
         }
 
+
+        public string[] GetPorts()
+        {
+            return SerialPort.GetPortNames();
+        }
         #endregion
 
         #region Private members

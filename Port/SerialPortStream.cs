@@ -14,7 +14,7 @@ namespace SerialPortLib2.Port
         [DllImport("MonoPosixHelper", SetLastError = true)]
         static extern int open_serial(string portName);
 
-        public SerialPortStream(string portName, int baudRate, int dataBits, Parity parity, StopBits stopBits,
+        internal SerialPortStream(string portName, int baudRate, int dataBits, Parity parity, StopBits stopBits,
                 bool dtrEnable, bool rtsEnable, Handshake handshake, int readTimeout, int writeTimeout,
                 int readBufferSize, int writeBufferSize, bool IsAVirtualPort)
         {
