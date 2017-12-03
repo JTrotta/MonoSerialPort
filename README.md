@@ -1,3 +1,5 @@
+Mono: [![Build Status](https://travis-ci.org/JTrotta/SerialPortLib2.svg?branch=master)](https://travis-ci.org/JTrotta/SerialPortLib2.svg?branch=master)
+
 # SerialPortLib2
 Serial port library for .Net / Mono, that can be used with virtual usb port
 
