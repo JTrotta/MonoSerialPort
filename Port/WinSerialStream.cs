@@ -100,7 +100,7 @@ namespace SerialPortLib2.Port
 #if NET_2_0
 			wo.EventHandle = write_event.Handle;
 #else
-            wo.EventHandle = (int)write_event.SafeWaitHandle;
+            wo.EventHandle = write_event.SafeWaitHandle.DangerousGetHandle();
 #endif
             write_overlapped = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(NativeOverlapped)));
             Marshal.StructureToPtr(wo, write_overlapped, true);
@@ -110,7 +110,7 @@ namespace SerialPortLib2.Port
 #if NET_2_0
 			ro.EventHandle = read_event.Handle;
 #else
-            ro.EventHandle = (int)read_event.SafeWaitHandle;
+            ro.EventHandle = read_event.SafeWaitHandle.DangerousGetHandle();
 #endif
             read_overlapped = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(NativeOverlapped)));
             Marshal.StructureToPtr(ro, read_overlapped, true);
@@ -399,15 +399,15 @@ namespace SerialPortLib2.Port
         }
 
         [DllImport("kernel32", SetLastError = true)]
-        static extern bool ClearCommError(int handle, out uint errors, out CommStat stat);
+        static extern bool ClearCommError(int handle, out uint errors, [Out] CommStat stat);
 
         public int BytesToRead
         {
             get
             {
                 uint errors;
-                CommStat stat;
-                if (!ClearCommError(handle, out errors, out stat))
+                CommStat stat =new CommStat();
+                if (!ClearCommError(handle, out errors, stat))
                     ReportIOError(null);
 
                 if (stat != null)
@@ -421,8 +421,8 @@ namespace SerialPortLib2.Port
             get
             {
                 uint errors;
-                CommStat stat;
-                if (!ClearCommError(handle, out errors, out stat))
+                CommStat stat = new CommStat();
+                if (!ClearCommError(handle, out errors, stat))
                     ReportIOError(null);
 
                 return (int)stat.BytesOut;

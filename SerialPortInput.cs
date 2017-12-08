@@ -22,6 +22,7 @@ namespace SerialPortLib2
         private int _defaultDataBits = 8;
         private StopBits _defaultStopBits = StopBits.One;
         private bool _isVirtualPort = false;
+        private Handshake _handshake = Handshake.None;
 
         // Read/Write error state variable
         private bool gotReadWriteError = true;
@@ -69,7 +70,7 @@ namespace SerialPortLib2
             this._isVirtualPort = isVirtualPort;
         }
 
-        public SerialPortInput(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits, bool isVirtualPort)
+        public SerialPortInput(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits, Handshake handshake, bool isVirtualPort)
         {
             this._isVirtualPort = isVirtualPort;
             this._defaultBaudRate = baudRate;
@@ -77,6 +78,7 @@ namespace SerialPortLib2
             this._defaultDataBits = dataBits;
             this._defaultStopBits = stopBits;
             this._portName = portName;
+            this._handshake = handshake;
         }
 
         /// <summary>
@@ -131,16 +133,17 @@ namespace SerialPortLib2
         /// </summary>
         /// <param name="portname">Portname.</param>
         /// <param name="baudrate">Baudrate.</param>
-        public void SetPort(string portname, int baudrate = 115200)
+        public void SetPort(string portname, int baudrate = 115200, Handshake handshake = Handshake.None)
         {
             if (!string.IsNullOrEmpty(_portName) && _portName != portname)
             {
-                // set to erro so that the connection watcher will reconnect
+                // Port changed, set to error so that the connection watcher will reconnect
                 // using the new port
                 gotReadWriteError = true;
             }
             _portName = portname;
             _defaultBaudRate = baudrate;
+            _handshake = handshake;
         }
 
         /// <summary>
@@ -194,8 +197,6 @@ namespace SerialPortLib2
                     if (tryOpen)
                     {
                         serialPort = new SerialPort();
-                        //JJ
-                        //serialPort.Handshake = Handshake.RequestToSendXOnXOff;
                         serialPort.IsVirtualPort = this._isVirtualPort;
 
                         serialPort.ErrorReceived += HanldeErrorReceived;
@@ -204,7 +205,8 @@ namespace SerialPortLib2
                         serialPort.Parity = _defaultParity;
                         serialPort.DataBits = _defaultDataBits;
                         serialPort.StopBits = _defaultStopBits;
-
+                        serialPort.Handshake = _handshake;
+                        
                         // We are not using serialPort.DataReceived event for receiving data since this is not working under Linux/Mono.
                         // We use the readerTask instead (see below).
                         serialPort.Open();
@@ -212,8 +214,8 @@ namespace SerialPortLib2
                     }
                 }
                 catch (Exception e)
-                {
-                    //logger.Error(e);
+                {                    
+                    Console.WriteLine(e);
                     Close();
                 }
                 if (serialPort != null && serialPort.IsOpen)
@@ -348,7 +350,6 @@ namespace SerialPortLib2
         /// <param name="args">Arguments.</param>
         protected virtual void OnConnectionStatusChanged(ConnectionStatusChangedEventArgs args)
         {
-            //logger.Debug(args.Connected);
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, args);
         }
@@ -359,7 +360,6 @@ namespace SerialPortLib2
         /// <param name="args">Arguments.</param>
         protected virtual void OnMessageReceived(MessageReceivedEventArgs args)
         {
-            //logger.Debug(BitConverter.ToString(args.Data));
             if (MessageReceived != null)
                 MessageReceived(this, args);
         }
