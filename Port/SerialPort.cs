@@ -544,7 +544,7 @@ namespace SerialPortLib2.Port
 			if (p == 4 || p == 128) {
 				string[] ttys = Directory.GetFiles("/dev/", "tty*");
 				foreach (string dev in ttys) {
-					if (dev.StartsWith("/dev/ttyS") || dev.StartsWith("/dev/ttyUSB"))
+                    if (dev.StartsWith("/dev/ttyS") || dev.StartsWith("/dev/ttyUSB") || dev.StartsWith("/dev/ttyACM"))
 						serial_ports.Add(dev);
 				}
 			} else {
