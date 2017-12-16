@@ -171,7 +171,7 @@ namespace SerialPortLib2
         }
 
 
-        public string[] GetPorts()
+        public static string[] GetPorts()
         {
             return SerialPort.GetPortNames();
         }
