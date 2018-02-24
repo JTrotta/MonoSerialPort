@@ -23,6 +23,7 @@ namespace SerialPortLib2
         private StopBits _defaultStopBits = StopBits.One;
         private bool _isVirtualPort = false;
         private Handshake _handshake = Handshake.None;
+        private int _readerTaskTimeWait = 100;
 
         // Read/Write error state variable
         private bool gotReadWriteError = true;
@@ -70,7 +71,14 @@ namespace SerialPortLib2
             this._isVirtualPort = isVirtualPort;
         }
 
-        public SerialPortInput(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits, Handshake handshake, bool isVirtualPort)
+        public SerialPortInput(string portName, 
+            int baudRate, 
+            Parity parity, 
+            int dataBits, 
+            StopBits stopBits, 
+            Handshake handshake, 
+            bool isVirtualPort,
+            int readerTaskTime = 100)
         {
             this._isVirtualPort = isVirtualPort;
             this._defaultBaudRate = baudRate;
@@ -79,6 +87,7 @@ namespace SerialPortLib2
             this._defaultStopBits = stopBits;
             this._portName = portName;
             this._handshake = handshake;
+            this._readerTaskTimeWait = readerTaskTime;
         }
 
         /// <summary>
@@ -293,7 +302,7 @@ namespace SerialPortLib2
                     }
                     else
                     {
-                        Thread.Sleep(100);
+                        Thread.Sleep(_readerTaskTimeWait);
                     }
                 }
                 catch (Exception e)
