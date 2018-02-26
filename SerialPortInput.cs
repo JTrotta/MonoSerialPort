@@ -142,7 +142,7 @@ namespace SerialPortLib2
         /// </summary>
         /// <param name="portname">Portname.</param>
         /// <param name="baudrate">Baudrate.</param>
-        public void SetPort(string portname, int baudrate = 115200, Handshake handshake = Handshake.None)
+        public void SetPort(string portname, int baudrate = 115200, Handshake handshake = Handshake.None, int readerTaskTime = 100)
         {
             if (!string.IsNullOrEmpty(_portName) && _portName != portname)
             {
@@ -153,6 +153,7 @@ namespace SerialPortLib2
             _portName = portname;
             _defaultBaudRate = baudrate;
             _handshake = handshake;
+            _readerTaskTimeWait = readerTaskTime;
         }
 
         /// <summary>
