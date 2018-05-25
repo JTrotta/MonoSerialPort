@@ -1,4 +1,4 @@
-﻿namespace SerialPortLib2.Port
+﻿namespace MonoSerialPort.Port
 {
     internal enum SerialData
     {

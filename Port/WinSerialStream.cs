@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace SerialPortLib2.Port
+namespace MonoSerialPort.Port
 {
     class WinSerialStream : Stream, ISerialStream, IDisposable
     {

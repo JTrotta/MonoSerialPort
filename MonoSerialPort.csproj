@@ -7,9 +7,9 @@
     <ProjectGuid>{43C05792-84CD-45E9-B934-70EC9A8497F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SerialPortLib2</RootNamespace>
-    <AssemblyName>SerialPortLib2</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RootNamespace>MonoSerialPort</RootNamespace>
+    <AssemblyName>MonoSerialPort</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>

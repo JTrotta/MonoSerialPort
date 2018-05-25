@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SerialPortLib2")]
-[assembly: AssemblyDescription("Fork of SerialPortLib for Virtual USB on Linux")]
+[assembly: AssemblyTitle("MonoSerialPort")]
+[assembly: AssemblyDescription("MonoSerialPort for Virtual USB on Linux and Windows")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Euronet")]
-[assembly: AssemblyProduct("SerialPortLib")]
+[assembly: AssemblyProduct("MonoSerialPort")]
 [assembly: AssemblyCopyright("Copyright ©  Euronet 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
