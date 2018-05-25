@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/JTrotta/MonoSerialPort.svg?branch=master)](https://travis-ci.org/JTrotta/MonoSerialPort.svg?branch=master)
 [![nuget](https://img.shields.io/nuget/v/MonoSerialPort.svg)](https://www.nuget.org/packages/MonoSerialPort/)
 
 # MonoSerialPort
