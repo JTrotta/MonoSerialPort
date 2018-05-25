@@ -64,3 +64,4 @@ build/
 *.suo
 *.user
 *.sln.docstates
+/.vs
