@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace SerialPortLib2.Port
+namespace MonoSerialPort.Port
 {
     class SerialPortStream : Stream, ISerialStream, IDisposable
     {
