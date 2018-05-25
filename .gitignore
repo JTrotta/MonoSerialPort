@@ -64,3 +64,5 @@ build/
 *.suo
 *.user
 *.sln.docstates
+/.vs/SerialPortLib/DesignTimeBuild/.dtbcache
+/.vs
