@@ -46,7 +46,7 @@ namespace Test
             //_port2.Connect();
 
             //485
-            _port3 = new MonoSerialPort.SerialPortInput("/dev/ttySIM7000AT", 115200, MonoSerialPort.Port.Parity.None, 8, MonoSerialPort.Port.StopBits.One, MonoSerialPort.Port.Handshake.None, true, 1000);
+            _port3 = new MonoSerialPort.SerialPortInput("/dev/ttySIM7000AT", 115200, MonoSerialPort.Port.Parity.None, 8, MonoSerialPort.Port.StopBits.One, MonoSerialPort.Port.Handshake.None, true, false);
             _port3.MessageReceived += _port_MessageReceived;
             _port3.ConnectionStatusChanged += _port_ConnectionStatusChanged;
             _port3.Connect();

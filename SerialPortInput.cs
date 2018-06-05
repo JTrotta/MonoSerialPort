@@ -21,7 +21,10 @@ namespace MonoSerialPort
         private StopBits _defaultStopBits = StopBits.One;
         private bool _isVirtualPort = false;
         private Handshake _handshake = Handshake.None;
-        private int _readerTaskTimeWait = 100;        
+        //private int _readerTaskTimeWait = 100;
+        private readonly bool _useStream;
+        private Action _kickoffRead = null;
+
 
         // Read/Write error state variable
         //private bool gotReadWriteError = true;
@@ -76,7 +79,8 @@ namespace MonoSerialPort
             StopBits stopBits, 
             Handshake handshake, 
             bool isVirtualPort,
-            int readerTaskTime = 100)
+            //int readerTaskTime = 100,
+            bool useStream = false)
         {
             this._isVirtualPort = isVirtualPort;
             this._defaultBaudRate = baudRate;
@@ -85,7 +89,8 @@ namespace MonoSerialPort
             this._defaultStopBits = stopBits;
             this._portName = portName;
             this._handshake = handshake;
-            this._readerTaskTimeWait = readerTaskTime;
+            //this._readerTaskTimeWait = readerTaskTime;
+            this._useStream = useStream;
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -142,7 +147,7 @@ namespace MonoSerialPort
         /// </summary>
         /// <param name="portname">Portname.</param>
         /// <param name="baudrate">Baudrate.</param>
-        public void SetPort(string portname, int baudrate = 115200, Handshake handshake = Handshake.None, int readerTaskTime = 100)
+        public void SetPort(string portname, int baudrate = 115200, Handshake handshake = Handshake.None)
         {
             if (!string.IsNullOrEmpty(_portName) && _portName != portname)
             {
@@ -154,7 +159,7 @@ namespace MonoSerialPort
             _portName = portname;
             _defaultBaudRate = baudrate;
             _handshake = handshake;
-            _readerTaskTimeWait = readerTaskTime;
+            //_readerTaskTimeWait = readerTaskTime;
         }
 
         /// <summary>
@@ -222,10 +227,12 @@ namespace MonoSerialPort
                     _serialPort.Open();
 
                     //gotReadWriteError = false;
-                    // Start the Reader task
-                    Task.Factory.StartNew(() => ReaderTask(_cancellationTokenSource.Token), _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default).ConfigureAwait(false);
+                    // Start the Reader task only if stream is not used by client
+                    if (!_useStream)
+                        Task.Factory.StartNew(() => ReaderTask(_cancellationTokenSource.Token), _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default).ConfigureAwait(false);
                     //reader = new Thread(ReaderTask);
                     //reader.Start();
+
                     OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(true));                  
                 }
                 catch (Exception e)
@@ -277,31 +284,40 @@ namespace MonoSerialPort
         #region Background Tasks
 
         private async Task ReaderTask(CancellationToken cancellationToken)
-        {
-            while (IsConnected && !cancellationToken.IsCancellationRequested)
+        {            
+            //while (IsConnected && !cancellationToken.IsCancellationRequested)
             {
                 int msglen = 0;
                 try
                 {
-                    msglen = _serialPort.BytesToRead;
-                    if (msglen > 0)
+                    ////msglen = _serialPort.BytesToRead;
+                    ////if (msglen > 0)
+                    ////{
+                    ////    byte[] message = new byte[msglen];
+                    ////    //
+                    ////    int readbytes = 0;
+                    ////    while (_serialPort.Read(message, readbytes, msglen - readbytes) <= 0)
+                    ////    {
+                    ////        //do nothing to read the whole data
+                    ////    }
+                    ////    System.Console.WriteLine("Reply:-> {0}", System.Text.Encoding.Default.GetString(message));
+                    ////    if (MessageReceived != null)
+                    ////    {
+                    ////        OnMessageReceived(new MessageReceivedEventArgs(message));
+                    ////    }
+                    ////}
+                    ////else
+                    ////{
+                    ////    await Task.Delay(_readerTaskTimeWait);
+                    ////}
+                    byte[] buffer = new byte[8192];
+                    while ((msglen = await _serialPort.BaseStream.ReadAsync(buffer, 0, buffer.Length)) > 0
+                           && IsConnected 
+                           && !cancellationToken.IsCancellationRequested)
                     {
                         byte[] message = new byte[msglen];
-                        //
-                        int readbytes = 0;
-                        while (_serialPort.Read(message, readbytes, msglen - readbytes) <= 0)
-                        {
-                            //do nothing to read the whole data
-                        }
-                        System.Console.WriteLine("Reply:-> {0}", System.Text.Encoding.Default.GetString(message));
-                        if (MessageReceived != null)
-                        {
-                            OnMessageReceived(new MessageReceivedEventArgs(message));
-                        }
-                    }
-                    else
-                    {
-                        await Task.Delay(_readerTaskTimeWait);
+                        Array.Copy(buffer, message, msglen);
+                        OnMessageReceived(new MessageReceivedEventArgs(message));                         
                     }
                 }
                 catch (Exception e)
