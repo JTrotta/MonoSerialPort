@@ -3,7 +3,7 @@
 # MonoSerialPort
 Serial port library for .Net / Mono, that can be used with virtual usb port
 
-#Notice
+# Notice
 The project has been renamed from SerialPortLib2 TO MonoSerialPort
 
 # Prerequisites
