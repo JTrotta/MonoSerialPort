@@ -370,6 +370,9 @@ namespace MonoSerialPort.Port
                 case 87:
                     message = "Parameter is incorrect.";
                     break;
+                case 995:
+                    message = "Stream has been deleted";
+                    break;
                 default:
                     // As fallback, we show the win32 error
                     message = new Win32Exception().Message;

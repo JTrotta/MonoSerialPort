@@ -265,10 +265,7 @@ namespace MonoSerialPort.Port
 				return encoding;
 			}
 			set {
-				if (value == null)
-					throw new ArgumentNullException ("value");
-
-				encoding = value;
+                encoding = value ?? throw new ArgumentNullException ("value");
 			}
 		}
 
@@ -757,30 +754,18 @@ namespace MonoSerialPort.Port
 
 		internal void OnErrorReceived (SerialErrorReceivedEventArgs args)
 		{
-			SerialErrorReceivedEventHandler handler =
-				(SerialErrorReceivedEventHandler) Events [error_received];
-
-			if (handler != null)
-				handler (this, args);
-		}
+            ((SerialErrorReceivedEventHandler)Events[error_received])?.Invoke(this, args);
+        }
 
 		internal void OnDataReceived (SerialDataReceivedEventArgs args)
 		{
-			SerialDataReceivedEventHandler handler =
-				(SerialDataReceivedEventHandler) Events [data_received];
-
-			if (handler != null)
-				handler (this, args);
-		}
+            ((SerialDataReceivedEventHandler)Events[data_received])?.Invoke(this, args);
+        }
 		
 		internal void OnDataReceived (SerialPinChangedEventArgs args)
 		{
-			SerialPinChangedEventHandler handler =
-				(SerialPinChangedEventHandler) Events [pin_changed];
-
-			if (handler != null)
-				handler (this, args);
-		}
+            ((SerialPinChangedEventHandler)Events[pin_changed])?.Invoke(this, args);
+        }
 
 		// events
 		[MonitoringDescription ("")]
