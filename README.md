@@ -3,10 +3,21 @@
 # MonoSerialPort
 Serial port library for .Net / Mono, that can be used with virtual usb port
 
-#notice
+# Notice
 The project has been renamed from SerialPortLib2 TO MonoSerialPort
 
-Usage:
+# Prerequisites
+The library is built against .NET Standard 2.0, which means it's supported by different Target Platforms like .NET Framework, .NET Core, Mono and more.  
+You can find a full list of the supported frameworks (and which version you need) [here](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).  
+
+## Dependencies
+The library depends on two nuget packages:  
+- [Microsoft.Windows.Compatibility](https://www.nuget.org/packages/Microsoft.Windows.Compatibility)  
+- [Mono.Posix.NETStandard](https://www.nuget.org/packages/Mono.Posix.NETStandard/)  
+
+Both of them are built against .NET Standard. If you don't use the nuget package but instead build the dll's on your own make sure to include those two libraries in your integrating project, otherwise it won't run!
+
+# Usage
 Just create an instance, if the port is virtual usb, create the object with the second constructor SerialPortInput(true).
 
     var _serialPort = new SerialPortInput(isVirtualPort);
