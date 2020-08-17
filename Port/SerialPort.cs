@@ -105,6 +105,19 @@ namespace MonoSerialPort.Port
             this.is_virtual_port = isVirtualPort;
 		}
 
+		public SerialPort (string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits, bool isVirtualPort,
+				int writeTimeout = InfiniteTimeout, int readTimeout = InfiniteTimeout) 
+		{
+			port_name = portName;
+			baud_rate = baudRate;
+			data_bits = dataBits;
+			stop_bits = stopBits;
+			this.parity = parity;
+            this.is_virtual_port = isVirtualPort;
+			write_timeout = writeTimeout;
+			read_timeout = readTimeout;
+		}
+
 		static string GetDefaultPortName ()
 		{
 			string[] ports = GetPortNames();
