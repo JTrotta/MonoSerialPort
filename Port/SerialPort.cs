@@ -110,7 +110,7 @@ namespace MonoSerialPort.Port
 			data_bits = dataBits;
 			stop_bits = stopBits;
 			this.parity = parity;
-            is_virtual_port = isVirtualPort;
+			is_virtual_port = isVirtualPort;
 			write_timeout = writeTimeout;
 			read_timeout = readTimeout;
 		}
