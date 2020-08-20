@@ -24,6 +24,8 @@ namespace MonoSerialPort
         //private int _readerTaskTimeWait = 100;
         private readonly bool _useStream;
         //private Action _kickoffRead = null;
+        private int _writeTimeout;
+        private int _readTimeout;
 
 
         // Read/Write error state variable
@@ -80,16 +82,20 @@ namespace MonoSerialPort
             Handshake handshake, 
             bool isVirtualPort,
             //int readerTaskTime = 100,
-            bool useStream = false)
+            bool useStream = false,
+            int writeTimeout = SerialPort.InfiniteTimeout,
+            int readTimeout = SerialPort.InfiniteTimeout)
         {
-            this._isVirtualPort = isVirtualPort;
-            this._defaultBaudRate = baudRate;
-            this._defaultParity = parity;
-            this._defaultDataBits = dataBits;
-            this._defaultStopBits = stopBits;
-            this._portName = portName;
-            this._handshake = handshake;
-            this._useStream = useStream;
+            _isVirtualPort = isVirtualPort;
+            _defaultBaudRate = baudRate;
+            _defaultParity = parity;
+            _defaultDataBits = dataBits;
+            _defaultStopBits = stopBits;
+            _portName = portName;
+            _handshake = handshake;
+            _useStream = useStream;
+            _writeTimeout = writeTimeout;
+            _readTimeout = readTimeout;
         }
 
         /// <summary>
@@ -202,6 +208,8 @@ namespace MonoSerialPort
                     DataBits = _defaultDataBits,
                     StopBits = _defaultStopBits,
                     Handshake = _handshake,
+                    WriteTimeout = _writeTimeout,
+                    ReadTimeout = _readTimeout
                     
                 };
                 _serialPort.ErrorReceived += HanldeErrorReceived;
